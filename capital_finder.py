@@ -14,23 +14,24 @@ class handler(BaseHTTPRequestHandler):
         capital = dictionary.get("capital")
         country = dictionary.get("country")
 
-        if "capital" in dictionary:
-            full_url = base_url + "capital/" + dictionary.get("capital")
-            response = requests.get(full_url)
+        if capital:
+            # full_url = base_url + "capital/" + dictionary.get("capital")
+            response = requests.get(base_url + "capital/" + capital)
             data = response.json()
             capitals = data[0]["capital"]
+            country_name = data[0]["name"]["common"]
             # joined_capitals = " and ".join(capitals)
             # for city_data in data:
             #     city_json_info = city_data["capital"][0]
             #     list_of_cities.append(city_json_info)
             # message = str(capitals)
-            message = f"the capital of {country} is {capitals}"
+            message = f"the capital of {country_name} is {capitals[0]}"
 
-        if country:
+        elif country:
             response = requests.get(base_url + "name/" + country)
             data = response.json
             capital_response = data[0]["capital"]
-            message = f"{capital_response} is the capital of {country}"
+            message = f"{capital_response[0]} is the capital of {country}"
         else:
             message = "Type a city name to get info about it and the country"
 
